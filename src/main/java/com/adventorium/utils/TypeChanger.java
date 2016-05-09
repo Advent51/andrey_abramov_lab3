@@ -1,19 +1,34 @@
 package com.adventorium.utils;
 
 import java.util.ListIterator;
+import java.util.logging.Logger;
 
 /**
  * Created by Андрей on 08.05.2016.
  */
-public class TypeChanger<E extends Comparable,T extends Comparable> {
+/***
+ * Класс для преобразование типов
+ * @param <T> Тип входной
+ * @param <R> Тип выходной
+ */
+public class TypeChanger<T extends Comparable,R extends Comparable> {
+    private static final Logger LOG = Logger.getLogger(TypeChanger.class.getName());
 
-    public void apply(DoublyLinkedList<E> inputted, DoublyLinkedList<T> newList) {
-        //DoublyLinkedList<T> newList = new DoublyLinkedList();
-        for(ListIterator<E> i = inputted.listIterator(0); i.hasNext(); ) {
-            E item = i.next();
-            T itemCasted = ((T) item);
-            newList.add(itemCasted);
+    Class<R> resultType;
+
+    public TypeChanger(Class<R> resultType) {
+        this.resultType = resultType;
+    }
+
+    public R apply(T input) {
+        if (input == null){
+            return null;
         }
-        //return newList;
+        try {
+            return resultType.getConstructor(String.class).newInstance(input.toString());
+        } catch (Exception e) {
+            LOG.info("Возникла ошибка при преобразовании типа");
+        }
+        return null;
     }
 }

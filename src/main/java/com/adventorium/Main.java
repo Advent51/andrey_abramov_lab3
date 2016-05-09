@@ -91,11 +91,11 @@ public class Main {
         printIt(dll);
 
         System.out.println("Mapping doesn't work yet");
-        /*System.out.println("CHANGING TYPE");
-        TypeChanger<Integer, Float> typeChanger = new TypeChanger<Integer, Float>();
+        System.out.println("CHANGING TYPE");
+        TypeChanger<Integer, Float> typeChanger = new TypeChanger<Integer, Float>(Float.class);
         DoublyLinkedList<Float> newList = new DoublyLinkedList<Float>();
-        //dll.map(typeChanger, newList);
-        typeChanger.apply(dll,newList);
+        newList = dll.map(typeChanger);
+        //typeChanger.apply(dll,newList);
         //printIt(newList);
 
         System.out.println("Новый лист в новом формате:");
@@ -103,7 +103,7 @@ public class Main {
             Float item = i.next();
             System.out.print(item +"  ");
         }
-        System.out.println();*/
+        System.out.println();
     }
 
     public static void printItMovingForwardWithIterator(DoublyLinkedList dll, int times){

@@ -241,8 +241,15 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable{
         return oldVal;
     }
 
-    public void map(TypeChanger<E,? extends Comparable> typeChanger, DoublyLinkedList<? extends Comparable> newList){
-        //typeChanger.apply(this, newList);
+    public <T extends Comparable> DoublyLinkedList<T> map(TypeChanger<E,T> typeChanger){
+        DoublyLinkedList<T> newList = new DoublyLinkedList<T>();
+        Iterator<E> iterator = iterator();
+        while (iterator.hasNext()){
+            E input = iterator.next();
+            T result = typeChanger.apply(input);
+            newList.add(result);
+        }
+        return newList;
     }
 
     /**
