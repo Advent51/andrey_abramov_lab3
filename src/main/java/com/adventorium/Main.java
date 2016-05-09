@@ -92,9 +92,9 @@ public class Main {
 
         System.out.println("Mapping doesn't work yet");
         System.out.println("CHANGING TYPE");
-        TypeChanger<Integer, Float> typeChanger = new TypeChanger<Integer, Float>(Float.class);
+        TypeChanger<Integer, Float> typeChanger = new TypeChanger<Integer, Float>();
         DoublyLinkedList<Float> newList = new DoublyLinkedList<Float>();
-        newList = dll.map(typeChanger);
+        newList = dll.map(typeChanger,Float.class);
         //typeChanger.apply(dll,newList);
         //printIt(newList);
 

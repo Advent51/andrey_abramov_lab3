@@ -14,13 +14,7 @@ import java.util.logging.Logger;
 public class TypeChanger<T extends Comparable,R extends Comparable> {
     private static final Logger LOG = Logger.getLogger(TypeChanger.class.getName());
 
-    Class<R> resultType;
-
-    public TypeChanger(Class<R> resultType) {
-        this.resultType = resultType;
-    }
-
-    public R apply(T input) {
+    public R apply(T input, Class<R> resultType) {
         if (input == null){
             return null;
         }
