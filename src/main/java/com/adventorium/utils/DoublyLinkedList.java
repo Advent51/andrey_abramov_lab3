@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 /**
  * Created by Андрей on 05.05.2016.
  */
-public class DoublyLinkedList<E extends Comparable> implements Iterable{
+public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
 
     protected transient int modCount = 0;
     transient int size = 0;
