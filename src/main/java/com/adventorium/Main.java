@@ -90,13 +90,14 @@ public class Main {
 
         printIt(dll);
 
-        System.out.println("Mapping doesn't work yet");
-        System.out.println("CHANGING TYPE");
-        TypeChanger<Integer, Float> typeChanger = new TypeChanger<Integer, Float>();
+        System.out.println("Mapping");
         DoublyLinkedList<Float> newList = new DoublyLinkedList<Float>();
-        newList = dll.map(typeChanger,Float.class);
-        //typeChanger.apply(dll,newList);
-        //printIt(newList);
+        newList = dll.map(new TypeChanger<Integer, Float>() {
+            @Override
+            public Float apply(Integer input) {
+                return input.floatValue();
+            }
+        });
 
         System.out.println("Новый лист в новом формате:");
         for(Iterator<Float> i = newList.iterator(); i.hasNext();){
@@ -104,6 +105,10 @@ public class Main {
             System.out.print(item +"  ");
         }
         System.out.println();
+
+        System.out.println("Проверка на ConcurrentModificationException");
+        //Разкомментируйте для получения ошибки
+        //System.out.println(itr.next());
     }
 
     public static void printItMovingForwardWithIterator(DoublyLinkedList dll, int times){

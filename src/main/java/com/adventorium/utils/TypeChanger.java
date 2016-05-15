@@ -1,6 +1,5 @@
 package com.adventorium.utils;
 
-import java.util.ListIterator;
 import java.util.logging.Logger;
 
 /**
@@ -8,21 +7,12 @@ import java.util.logging.Logger;
  */
 /***
  * Класс для преобразование типов
- * @param <T> Тип входной
- * @param <R> Тип выходной
+ * @param <T1> Тип входной
+ * @param <T2> Тип выходной
  */
-public class TypeChanger<T extends Comparable,R extends Comparable> {
-    private static final Logger LOG = Logger.getLogger(TypeChanger.class.getName());
+public abstract class TypeChanger<T1 extends Comparable,T2 extends Comparable> {
 
-    public R apply(T input, Class<R> resultType) {
-        if (input == null){
-            return null;
-        }
-        try {
-            return resultType.getConstructor(String.class).newInstance(input.toString());
-        } catch (Exception e) {
-            LOG.info("Возникла ошибка при преобразовании типа");
-        }
-        return null;
-    }
+    //private static final Logger LOG = Logger.getLogger(TypeChanger.class.getName());
+
+    public abstract T2 apply(T1 input);
 }
