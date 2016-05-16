@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        DoublyLinkedList<Integer> dll = new DoublyLinkedList();
+        DoublyLinkedList<Integer> dll = new DoublyLinkedList<>();
         //LinkedList<Integer> dll = new LinkedList();
 
         System.out.println("Добавляем");

@@ -29,8 +29,6 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
     }
 
     Node<E> node(int index) {
-        // assert isElementIndex(index);
-
         if (index < (size >> 1)) {
             Node<E> x = first;
             for (int i = 0; i < index; i++)
@@ -52,7 +50,7 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
     void linkLast(E e) {
         final Node<E> l = last;
         final Node<E> f = first;
-        final Node<E> newNode = new Node(l, e, f);
+        final Node<E> newNode = new Node<>(l, e, f);
         if(size==0) {
             newNode.prev=newNode;
             newNode.next=newNode;
@@ -89,7 +87,6 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
     }
 
     E unlink(Node<E> x) {
-        // assert x != null;
         final E element = x.item;
         final Node<E> next = x.next;
         final Node<E> prev = x.prev;
@@ -121,11 +118,10 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
     }
 
     void linkBefore(E e, Node<E> succ) {
-        // assert succ != null;
         final Node<E> pred = succ.prev;
-        final Node<E> newNode = new Node(pred, e, succ);
+        final Node<E> newNode = new Node<>(pred, e, succ);
         succ.prev = newNode;
-        if (pred == last) {//ломает всё если null заменить на last
+        if (pred == last) {
             first = newNode;
             pred.next = newNode;
         }
@@ -209,8 +205,8 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
         }
         while (x != last);
 
-        if(x == last && first!=last)
-            result[i++] = x.item;
+        if(first!=last)
+            result[i] = x.item;
 
         if (a.length > size)
             a[size] = null;
@@ -228,8 +224,8 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
         }
         while (x != last);
 
-        if(x == last && first!=last)
-            result[i++] = x.item;
+        if(first!=last)
+            result[i] = x.item;
         return result;
     }
 
@@ -242,10 +238,8 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
     }
 
     public <T extends Comparable> DoublyLinkedList<T> map(TypeChanger<E,T> typeChanger){
-        DoublyLinkedList<T> newList = new DoublyLinkedList<T>();
-        Iterator<E> iterator = iterator();
-        while (iterator.hasNext()){
-            E input = iterator.next();
+        DoublyLinkedList<T> newList = new DoublyLinkedList<>();
+        for(E input : this) {
             T result = typeChanger.apply(input);
             newList.add(result);
         }
@@ -268,7 +262,6 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
         private int expectedModCount = modCount;
 
         ListItr(int index) {
-            // assert isPositionIndex(index);
             next = (index == size) ? null : node(index);
             nextIndex = index;
         }
@@ -279,9 +272,6 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
 
         public E next() {
             checkForComodification();
-            /*if (!hasNext())
-                throw new NoSuchElementException();*/
-
             lastReturned = next;
             next = next.next;
             nextIndex++;
@@ -294,9 +284,6 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
 
         public E previous() {
             checkForComodification();
-            /*if (!hasPrevious())
-                throw new NoSuchElementException();*/
-
             lastReturned = next = (next == null) ? last : next.prev;
             nextIndex--;
             return lastReturned.item;
@@ -378,7 +365,6 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
         private int expectedModCount = modCount;
 
         CycledLinkedListIterator(int index) {
-            // assert isPositionIndex(index);
             next = (index == size) ? null : node(index);
             nextIndex = index;
         }
@@ -391,39 +377,11 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
         @Override
         public E next() {
             checkForComodification();
-            /*if (!hasNext())
-                throw new NoSuchElementException();*/
-
             lastReturned = next;
             next = next.next;
             nextIndex++;
             return lastReturned.item;
         }
-
-        /*public boolean hasPrevious() {
-            return nextIndex > 0;
-        }
-
-        public E previous() {
-            checkForComodification();
-            if (!hasPrevious())
-                throw new NoSuchElementException();
-
-            lastReturned = next = (next == null) ? last : next.prev;
-            nextIndex--;
-            if(nextIndex==0) {
-                nextIndex = size-1;
-            }
-            return lastReturned.item;
-        }
-
-        public int nextIndex() {
-            return nextIndex;
-        }
-
-        public int previousIndex() {
-            return nextIndex - 1;
-        }*/
 
         @Override
         public void remove() {
@@ -440,24 +398,6 @@ public class DoublyLinkedList<E extends Comparable> implements Iterable<E>{
             lastReturned = null;
             expectedModCount++;
         }
-
-        /*public void set(E e) {
-            if (lastReturned == null)
-                throw new IllegalStateException();
-            checkForComodification();
-            lastReturned.item = e;
-        }
-
-        public void add(E e) {
-            checkForComodification();
-            lastReturned = null;
-            if (next == first)
-                linkLast(e);
-            else
-                linkBefore(e, next);
-            nextIndex++;
-            expectedModCount++;
-        }*/
 
         public void forEachRemaining(Consumer<? super E> action) {
             Objects.requireNonNull(action);
